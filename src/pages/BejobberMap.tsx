@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, TextInput } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout, Region } from 'react-native-maps'
-import { MaterialIcons } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { getCurrentPositionAsync, requestPermissionsAsync } from 'expo-location';
 import api from '../services/api';
+import { RectButton } from 'react-native-gesture-handler';
 
 interface currentRegion {
     latitude: number,
@@ -31,14 +32,17 @@ interface currentRegion {
 // }
 
 const BejobberMap: React.FC = () => {
+    const [searchFlag, setSearchFlag] = useState(false);
     const [users, setUsers] = useState<any>([]);
     const [currentRegion, setCurrentRegion] = useState<currentRegion>();
     const [services, setServices] = useState("");
 
     const navigation = useNavigation();
 
-    function handleNavigateToOrphanageDetails() {
-        navigation.navigate('OrphanageDetails')
+    function handleNavigateToBejobberDetail(id: number) {
+        navigation.navigate('BejobberDetail', { id })
+
+
     }
 
     useEffect(() => {
@@ -58,6 +62,9 @@ const BejobberMap: React.FC = () => {
                     latitudeDelta: 0.02,
                     longitudeDelta: 0.02,
                 });
+            } else {
+                alert('O Aplicativo precisa da sua localização para exibir o mapa, por favor, permita a localização do dispositivo');
+                loadInititalPosition();
             }
         }
 
@@ -65,6 +72,7 @@ const BejobberMap: React.FC = () => {
     }, [])
 
     async function loadUsers() {
+        setSearchFlag(true);
         const response = await api.get('/search', {
             params: {
                 latitude: currentRegion?.latitude,
@@ -73,6 +81,7 @@ const BejobberMap: React.FC = () => {
             }
         });
         setUsers(response.data.users);
+        setSearchFlag(false);
     }
 
     function handleRegionChange(region: Region) {
@@ -88,7 +97,7 @@ const BejobberMap: React.FC = () => {
             <MapView
                 onRegionChangeComplete={handleRegionChange}
                 provider={PROVIDER_GOOGLE}
-                style={styles.map}
+                style={!searchFlag ? styles.map : styles.mapLoading}
                 initialRegion={currentRegion}
             >
                 {users.map((user: any) => (
@@ -107,18 +116,7 @@ const BejobberMap: React.FC = () => {
                             style={styles.avatar}
                             source={{ uri: user.images[0]?.path }}
                         />
-                        <Callout tooltip onPress={() => {
-                            navigation.navigate('Profile', {
-                                userName: user.name,
-                                userBio: user.bio,
-                                userServices: user.services,
-                                userEmail: user.email,
-                                userPhone: user.phone,
-                                userAvatar: user.images,
-                                userCity: user.city,
-                                userState: user.state,
-                            });
-                        }}
+                        <Callout tooltip onPress={() => handleNavigateToBejobberDetail(user._id)}
                         >
                             <View style={styles.calloutContainer} >
                                 <Text style={styles.calloutTextName} >{user.name.toUpperCase()}</Text>
@@ -141,11 +139,11 @@ const BejobberMap: React.FC = () => {
                     onChangeText={setServices}
                 />
 
-                <TouchableOpacity onPress={loadUsers} style={styles.loadButtom}>
+                <RectButton onPress={loadUsers} style={styles.loadButtom}>
                     <Text>
-                        <MaterialIcons name="search" size={20} color="#FFF" />
+                        <Feather name={!searchFlag ? "search" : "loader"} size={20} color="#FFF" />
                     </Text>
-                </TouchableOpacity>
+                </RectButton>
             </View>
         </View>
     );
@@ -164,6 +162,12 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+    },
+
+    mapLoading: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        opacity: 0.5
     },
 
     calloutContainer: {

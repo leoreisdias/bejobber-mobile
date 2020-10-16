@@ -1,18 +1,32 @@
 import React from 'react';
 import { View, Image, StyleSheet, Dimensions, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import LottieView from 'lottie-react-native';
 
 import logoImg from '../images/Logo.png'
+import robot from '../../robot.json'
+import { useNavigation } from '@react-navigation/native';
 
 const Landing: React.FC = () => {
+    const navigation = useNavigation();
+
+    function handleSearchServices() {
+        navigation.navigate('BejobberMap')
+    }
+
+    function handleSignUp() {
+        navigation.navigate('BejobberData')
+    }
+
     return (
         <View style={styles.container}>
+            {/* <LottieView resizeMode="contain" autoSize source={robot} autoPlay loop /> */}
             <Image source={logoImg} style={styles.logoImg} />
-            <TouchableOpacity style={styles.searchServiceButton}>
+            <TouchableOpacity style={styles.searchServiceButton} onPress={handleSearchServices}>
                 <Text style={styles.searchServiceText}>Procurar Serviço</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.signUpButton}>
+            <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={styles.signUpText}>Cadastrar-se</Text>
             </TouchableOpacity>
 
