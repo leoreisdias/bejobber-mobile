@@ -103,6 +103,9 @@ export default function BejobberDetail() {
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{jobber.name.charAt(0).toUpperCase() + jobber.name.slice(1)}</Text>
                 <Text style={styles.description}>{jobber.bio.charAt(0).toUpperCase() + jobber.bio.slice(1)}</Text>
+                <Text style={styles.subTitle}>Endereço:</Text>
+                <Text style={styles.address}>{jobber.address}, {jobber.city}/{jobber.state}</Text>
+
 
                 <View style={styles.mapContainer}>
                     <MapView
@@ -206,6 +209,19 @@ const styles = StyleSheet.create({
         fontFamily: 'Nunito_700Bold',
     },
 
+    subTitle: {
+        color: '#4D6F80',
+        fontSize: 20,
+        fontFamily: 'Nunito_700Bold',
+        marginTop: 16
+    },
+
+    address: {
+        fontFamily: 'Nunito_600SemiBold',
+        color: '#5c8599',
+        lineHeight: 24,
+    },
+
     description: {
         fontFamily: 'Nunito_600SemiBold',
         color: '#5c8599',
@@ -218,7 +234,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderWidth: 1.2,
         borderColor: '#B3DAE2',
-        marginTop: 40,
+        marginTop: 15,
         backgroundColor: '#E6F7FB',
     },
 

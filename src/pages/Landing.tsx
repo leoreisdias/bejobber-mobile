@@ -1,17 +1,39 @@
-import React from 'react';
-import { View, Image, StyleSheet, Dimensions, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Dimensions, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import LottieView from 'lottie-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 import logoImg from '../images/Logo.png'
-import robot from '../../robot.json'
 import { useNavigation } from '@react-navigation/native';
 
 const Landing: React.FC = () => {
     const navigation = useNavigation();
+    const [onboardingFlag, setOnboardingFlag] = useState(true)
+
+    useEffect(() => {
+        const storeData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('@storage_key')
+
+                if (value !== null)
+                    setOnboardingFlag(false)
+                else
+                    await AsyncStorage.setItem('@storage_key', "checked")
+            } catch (e) {
+                // Tratativa
+            }
+        }
+
+        storeData();
+    }, [])
 
     function handleSearchServices() {
-        navigation.navigate('BejobberMap')
+        if (onboardingFlag)
+            navigation.navigate('BejobberMap')
+        else
+            navigation.navigate('FirstOnboarding')
     }
 
     function handleSignUp() {
@@ -19,8 +41,8 @@ const Landing: React.FC = () => {
     }
 
     return (
-        <View style={styles.container}>
-            {/* <LottieView resizeMode="contain" autoSize source={robot} autoPlay loop /> */}
+        <LinearGradient
+            colors={['#6C54FF', '#15B89B']} start={{ x: 0, y: 1 }} end={{ x: 0, y: 0 }} locations={[0, 1]} style={styles.container}>
             <Image source={logoImg} style={styles.logoImg} />
             <TouchableOpacity style={styles.searchServiceButton} onPress={handleSearchServices}>
                 <Text style={styles.searchServiceText}>Procurar Serviço</Text>
@@ -30,7 +52,7 @@ const Landing: React.FC = () => {
                 <Text style={styles.signUpText}>Cadastrar-se</Text>
             </TouchableOpacity>
 
-        </View>
+        </LinearGradient>
     );
 }
 
