@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProp> = ({ title, showCancel = true }) => {
     return (
         <View style={styles.container}>
             <BorderlessButton onPress={navigation.goBack}>
-                <Feather name="arrow-left" size={24} color="#15b6d6" />
+                <Feather name="arrow-left" size={30} color="#15b6d6" />
             </BorderlessButton>
             <Text style={styles.title}>{title}</Text>
 

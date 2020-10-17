@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, Image, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, TextInput, ActivityIndicator } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout, Region } from 'react-native-maps'
 import { Feather } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { getCurrentPositionAsync, requestPermissionsAsync } from 'expo-location';
 import api from '../services/api';
 import { RectButton } from 'react-native-gesture-handler';
+
+import workers from '../images/workers.png'
+
 
 interface currentRegion {
     latitude: number,
@@ -31,6 +34,8 @@ interface currentRegion {
 //     state: string,
 // }
 
+
+
 const BejobberMap: React.FC = () => {
     const [searchFlag, setSearchFlag] = useState(false);
     const [users, setUsers] = useState<any>([]);
@@ -41,11 +46,15 @@ const BejobberMap: React.FC = () => {
 
     function handleNavigateToBejobberDetail(id: number) {
         navigation.navigate('BejobberDetail', { id })
-
-
     }
 
-    useEffect(() => {
+    function handleNavigateToMenu() {
+        navigation.navigate('Landing');
+    }
+
+    useFocusEffect(() => {
+        let isMounted = true;
+
         async function loadInititalPosition() {
             const { granted } = await requestPermissionsAsync();
 
@@ -56,12 +65,13 @@ const BejobberMap: React.FC = () => {
 
                 const { latitude, longitude } = coords;
 
-                setCurrentRegion({
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.02,
-                    longitudeDelta: 0.02,
-                });
+                if (isMounted)
+                    setCurrentRegion({
+                        latitude,
+                        longitude,
+                        latitudeDelta: 0.02,
+                        longitudeDelta: 0.02,
+                    });
             } else {
                 alert('O Aplicativo precisa da sua localização para exibir o mapa, por favor, permita a localização do dispositivo');
                 loadInititalPosition();
@@ -69,7 +79,8 @@ const BejobberMap: React.FC = () => {
         }
 
         loadInititalPosition();
-    }, [])
+        return () => { isMounted = false }
+    })
 
     async function loadUsers() {
         setSearchFlag(true);
@@ -89,7 +100,11 @@ const BejobberMap: React.FC = () => {
     }
 
     if (!currentRegion) {
-        return null;
+        return (
+            <View style={styles.loadingSpinnerContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
 
     return (
@@ -145,6 +160,13 @@ const BejobberMap: React.FC = () => {
                     </Text>
                 </RectButton>
             </View>
+
+            <View style={styles.footer}>
+                <RectButton style={styles.createOrphanageButton} onPress={handleNavigateToMenu}>
+                    <Text style={styles.footerText}>Menu</Text>
+                    <Feather name="menu" size={20} color="#fff" />
+                </RectButton>
+            </View>
         </View>
     );
 }
@@ -152,6 +174,12 @@ const BejobberMap: React.FC = () => {
 export default BejobberMap;
 
 const styles = StyleSheet.create({
+    loadingSpinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -200,22 +228,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 24,
         right: 24,
-        bottom: 32,
-
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        height: 56,
-        paddingLeft: 24,
+        bottom: 22,
 
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
 
-        elevation: 3,
+
     },
 
+
     footerText: {
-        color: '#8fa7b3',
+        color: '#fff',
         fontFamily: 'Nunito_700Bold'
     },
 
@@ -260,6 +284,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
+    },
+
+    createOrphanageButton: {
+        width: 56,
+        height: 56,
+        backgroundColor: '#15c3d6',
+        borderRadius: 20,
+
+        justifyContent: 'center',
+        alignItems: 'center'
     }
+
+
 
 });

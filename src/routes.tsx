@@ -31,7 +31,7 @@ export default function Routes() {
 
                 <Screen name="BejobberData" component={BejobberData} options={{
                     headerShown: true,
-                    header: () => <Header showCancel={false} title="Cadastre seus Dados" />
+                    header: () => <Header showCancel={true} title="Cadastre seus Dados" />
                 }} />
 
             </Navigator>

@@ -16,6 +16,7 @@
     "axios": "^0.20.0",
     "expo": "~39.0.2",
     "expo-font": "~8.3.0",
+    "expo-image-picker": "~9.1.0",
     "expo-linear-gradient": "~8.3.0",
     "expo-location": "~8.2.1",
     "expo-mail-composer": "~8.2.1",
