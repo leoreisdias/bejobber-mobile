@@ -2558,22 +2558,15 @@ expo-linking@~1.0.4:
     qs "^6.5.0"
     url-parse "^1.4.4"
 
-expo-location@~8.2.1:
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-8.2.1.tgz#5ea6bfd3d211939117416da151f1384caa15e0db"
-  integrity sha512-MixKapt3nijAxyjIISscBzdKi8bwh0H/dWYsL2mCofrjguFHOh2gP07h95902lekb7NVqybl5AIQRW5cvrG4rQ==
-  dependencies:
-    invariant "^2.2.4"
-
 expo-location@~9.0.0:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-9.0.1.tgz#adf93b8adf5e9dcf9570cba1d66c8e3831329156"
   integrity sha512-yl4V2IelxrjG1h3nshkyILwghysNJvvEuR4Of0U7oYAsBrT0cq8NxFuaDemRvqt9Yb19wVFNMoVtYFNpthcqpQ==
 
-expo-mail-composer@~8.2.1:
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/expo-mail-composer/-/expo-mail-composer-8.2.1.tgz#26168b747606a9531801f1322b1690aa22bfe7db"
-  integrity sha512-srZ+yyevorpMONqXoUYAc5alLPix8xCZXhnatyXHPS1a11OOSsjtURjeK0CL4okmIkCSyw2Ug3W6GXfxVgv7Qw==
+expo-mail-composer@~8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/expo-mail-composer/-/expo-mail-composer-8.4.0.tgz#8d6e58fd131511e0045cf321d410ea6c65c61381"
+  integrity sha512-VXVKLr2yu88EJOkma21oC29rqUKW5Iq9RG7cNBaH3Y4J4uem+6WOJSFy8F5V+ZEZY7gKNDvfApH7kv2iYzVsCg==
   dependencies:
     query-string "^6.2.0"
 

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, TextInput, ActivityIndicator } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout, Region } from 'react-native-maps'
 import { Feather } from '@expo/vector-icons'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { getCurrentPositionAsync, requestPermissionsAsync } from 'expo-location';
 import api from '../services/api';
 import { RectButton } from 'react-native-gesture-handler';
 
-import workers from '../images/workers.png'
 
 
 interface currentRegion {
@@ -52,9 +51,7 @@ const BejobberMap: React.FC = () => {
         navigation.navigate('Landing');
     }
 
-    useFocusEffect(() => {
-        let isMounted = true;
-
+    useEffect(() => {
         async function loadInititalPosition() {
             const { granted } = await requestPermissionsAsync();
 
@@ -65,22 +62,19 @@ const BejobberMap: React.FC = () => {
 
                 const { latitude, longitude } = coords;
 
-                if (isMounted)
-                    setCurrentRegion({
-                        latitude,
-                        longitude,
-                        latitudeDelta: 0.02,
-                        longitudeDelta: 0.02,
-                    });
+                setCurrentRegion({
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02,
+                });
             } else {
                 alert('O Aplicativo precisa da sua localização para exibir o mapa, por favor, permita a localização do dispositivo');
                 loadInititalPosition();
             }
         }
-
         loadInititalPosition();
-        return () => { isMounted = false }
-    })
+    }, [])
 
     async function loadUsers() {
         setSearchFlag(true);
@@ -103,6 +97,7 @@ const BejobberMap: React.FC = () => {
         return (
             <View style={styles.loadingSpinnerContainer}>
                 <ActivityIndicator size="large" color="#0000ff" />
+
             </View>
         );
     }

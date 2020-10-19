@@ -13,15 +13,14 @@ const Landing: React.FC = () => {
     const [onboardingFlag, setOnboardingFlag] = useState(true)
 
     useEffect(() => {
-        let isMounted = true;
         const storeData = async () => {
             try {
                 const value = await AsyncStorage.getItem('@storage_key')
 
                 if (value !== null)
-                    if (isMounted) setOnboardingFlag(false)
-                    else
-                        if (isMounted) await AsyncStorage.setItem('@storage_key', "checked")
+                    setOnboardingFlag(false)
+                else
+                    await AsyncStorage.setItem('@storage_key', "checked")
             } catch (e) {
                 // Tratativa
             }
@@ -29,7 +28,6 @@ const Landing: React.FC = () => {
 
         storeData();
 
-        return () => { isMounted = false }
     }, [])
 
     function handleSearchServices() {

@@ -23,10 +23,16 @@
       "package": "com.kumoleo.bejobber",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCeXdbovsqWg6qR9Ou2usDzWbtOfBCLcRs"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
