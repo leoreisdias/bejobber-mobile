@@ -8,7 +8,6 @@ import api from '../services/api';
 import { RectButton } from 'react-native-gesture-handler';
 
 
-
 interface currentRegion {
     latitude: number,
     longitude: number,
@@ -56,9 +55,7 @@ const BejobberMap: React.FC = () => {
             const { granted } = await requestPermissionsAsync();
 
             if (granted) {
-                const { coords } = await getCurrentPositionAsync({
-                    enableHighAccuracy: true,
-                });
+                const { coords } = await getCurrentPositionAsync({});
 
                 const { latitude, longitude } = coords;
 
