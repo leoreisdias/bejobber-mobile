@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, ImageBackground, StyleSheet, Dimensions, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
@@ -7,9 +7,11 @@ import { Feather } from '@expo/vector-icons';
 import firstTutorial from '../../images/FirstTutorial.png'
 import secondTutorial from '../../images/SecondTutorial.png'
 import { useNavigation } from '@react-navigation/native';
+import { AccessContext } from '../../contexts/AccessContext';
 
 
 const SecondOnboading: React.FC = () => {
+    const { handleFirstVisit } = useContext(AccessContext);
     const navigation = useNavigation();
 
     const [indexTutorial, setIndexTutorial] = useState(0)
@@ -19,17 +21,9 @@ const SecondOnboading: React.FC = () => {
     function handleNextImageTutorial() {
         if (indexTutorial === 1) {
             setIndexTutorial(0);
-            navigation.navigate('BejobberMap')
+            handleFirstVisit();
         }
         setIndexTutorial(indexTutorial + 1)
-    }
-
-    function handlePrevImageTutorial() {
-        if (indexTutorial === 0) {
-            setIndexTutorial(0)
-            navigation.navigate('Landing')
-        }
-        setIndexTutorial(indexTutorial - 1)
     }
 
     return (
@@ -41,9 +35,6 @@ const SecondOnboading: React.FC = () => {
                     </Text>
                 </View>
                 <View style={styles.nextContainer}>
-                    <RectButton style={styles.prevButton} onPress={handlePrevImageTutorial}>
-                        <Feather name="arrow-left" color="#EBF2F5" size={30} />
-                    </RectButton>
                     <RectButton style={styles.nextButton} onPress={handleNextImageTutorial}>
                         <Feather name="arrow-right" color="#964EDE" size={30} />
                     </RectButton>
@@ -81,31 +72,17 @@ const styles = StyleSheet.create({
     },
 
     nextContainer: {
-        alignItems: 'center',
+        width: '100%',
+        alignItems: 'flex-end',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
 
     nextButton: {
         backgroundColor: '#CDFF42',
         borderRadius: 20,
         height: 56,
-        width: 54,
-
-        marginLeft: 200,
-
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        elevation: 3,
-    },
-
-    prevButton: {
-        backgroundColor: '#0089A5',
-        borderRadius: 20,
-        height: 56,
-        width: 54,
+        width: '80%',
 
         flexDirection: 'row',
         justifyContent: 'center',

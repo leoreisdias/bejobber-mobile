@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useFonts } from 'expo-font'
 import { Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold } from '@expo-google-fonts/nunito'
-import Routes from './src/routes';
+import Routes from './src/routes/routes';
 import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { AccessProvider } from './src/contexts/AccessContext';
 
 export default function App() {
-  const [isReady, setIsReady] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Nunito_600SemiBold,
@@ -19,10 +20,13 @@ export default function App() {
   }
 
 
-  return (<>
-    <StatusBar hidden={true} />
-    <Routes />
-  </>
+  return (
+    <NavigationContainer>
+      <AccessProvider>
+        <StatusBar hidden={true} />
+        <Routes />
+      </AccessProvider>
+    </NavigationContainer>
   )
 }
 

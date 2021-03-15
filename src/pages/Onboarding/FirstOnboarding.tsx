@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Image, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 
 import mapCartoon from '../../images/mapCartoon.png'
 import workers from '../../images/workers.png'
 import animated from '../../images/animateWorkers.gif'
+
+import LottieView from 'lottie-react-native';
 
 
 const FirstOnboarding: React.FC = () => {
@@ -26,18 +28,17 @@ const FirstOnboarding: React.FC = () => {
         setIndexTutorial(indexTutorial + 1)
     }
 
-    function handlePrevImageTutorial() {
-        if (indexTutorial === 0) {
-            setIndexTutorial(0)
-            navigation.navigate('Landing')
-        }
-        setIndexTutorial(indexTutorial - 1)
-    }
-
     return (
         <View style={styles.container}>
             <View style={styles.imageContainerIntroduction}>
-                <Image source={imagesIntroduction[indexTutorial] ? imagesIntroduction[indexTutorial] : <View />} />
+                <LottieView
+                    source={require("../../assets/lotties/worker.json")}
+                    loop
+                    autoPlay
+                    speed={1}
+                    style={{ width: 300, height: 300 }}
+                />
+                {/* <Image source={imagesIntroduction[indexTutorial] ? imagesIntroduction[indexTutorial] : <View />} /> */}
             </View>
             <View style={styles.TextContainerIntroduction}>
                 <Text style={styles.textIntroduction}>
@@ -48,9 +49,6 @@ const FirstOnboarding: React.FC = () => {
                 </Text>
             </View>
             <View style={styles.nextContainer}>
-                <RectButton style={styles.prevButton} onPress={handlePrevImageTutorial}>
-                    <Feather name="arrow-left" color="#EBF2F5" size={30} />
-                </RectButton>
                 <RectButton style={styles.nextButton} onPress={handleNextImageTutorial}>
                     <Feather name="arrow-right" color="#964EDE" size={30} />
                 </RectButton>
@@ -95,18 +93,17 @@ const styles = StyleSheet.create({
     },
 
     nextContainer: {
-        marginRight: 50,
-        marginLeft: 50,
+        width: '100%',
         alignItems: 'flex-end',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
 
     nextButton: {
         backgroundColor: '#CDFF42',
         borderRadius: 20,
         height: 56,
-        width: 54,
+        width: '80%',
 
         flexDirection: 'row',
         justifyContent: 'center',

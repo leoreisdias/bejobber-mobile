@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Dimensions, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
-import AsyncStorage from '@react-native-community/async-storage';
 
 
 import logoImg from '../images/Logo.png'
@@ -10,31 +9,9 @@ import { useNavigation } from '@react-navigation/native';
 
 const Landing: React.FC = () => {
     const navigation = useNavigation();
-    const [onboardingFlag, setOnboardingFlag] = useState(true)
-
-    useEffect(() => {
-        const storeData = async () => {
-            try {
-                const value = await AsyncStorage.getItem('@storage_key')
-
-                if (value !== null)
-                    setOnboardingFlag(false)
-                else
-                    await AsyncStorage.setItem('@storage_key', "checked")
-            } catch (e) {
-                // Tratativa
-            }
-        }
-
-        storeData();
-
-    }, [])
 
     function handleSearchServices() {
-        if (onboardingFlag)
-            navigation.navigate('FirstOnboarding')
-        else
-            navigation.navigate('BejobberMap')
+        navigation.navigate('BejobberMap')
     }
 
     function handleSignUp() {
@@ -77,15 +54,17 @@ const styles = StyleSheet.create({
     searchServiceButton: {
         paddingVertical: 10,
         paddingHorizontal: 15,
-        backgroundColor: '#15C3D6',
-        borderRadius: 36,
+        backgroundColor: '#0B69D8',
+        borderRadius: 10,
 
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
+        elevation: 5
     },
 
     searchServiceText: {
-        fontSize: 20,
+        fontSize: 30,
         paddingBottom: 2,
         fontFamily: 'Nunito_700Bold',
         color: '#fff'
@@ -94,15 +73,17 @@ const styles = StyleSheet.create({
     signUpButton: {
         paddingVertical: 10,
         paddingHorizontal: 15,
-        backgroundColor: '#C683FB',
-        borderRadius: 36,
+        backgroundColor: '#4A8FE2',
+        borderRadius: 10,
 
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
+        elevation: 5
     },
 
     signUpText: {
-        fontSize: 20,
+        fontSize: 30,
         paddingBottom: 2,
         fontFamily: 'Nunito_700Bold',
         color: '#fff'

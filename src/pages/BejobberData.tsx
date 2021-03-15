@@ -109,11 +109,15 @@ export default function BejobberData() {
         })
 
         try {
+            console.log(data);
             await api.post('users', data)
             setLoading(false);
+
             navigation.navigate('BejobberMap');
 
         } catch (error) {
+            console.log(error);
+
             alert('Email ou CPF já cadastrados!');
             setLoading(false);
             return;

@@ -51,7 +51,6 @@ export default function BejobberDetail() {
     useEffect(() => {
         api.get(`users/${params.id}`).then(response => {
             setJobber(response.data.users);
-            console.log(response.data.users);
         })
     }, [params.id])
 
@@ -151,11 +150,11 @@ export default function BejobberDetail() {
                             <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>Atendemos fim de semana</Text>
                         </View>
                     ) : (
-                            <View style={[styles.scheduleItem, styles.scheduleItemRed]}>
-                                <Feather name="info" size={40} color="#FF669D" />
-                                <Text style={[styles.scheduleText, styles.scheduleTextRed]}>Não Atendemos fim de semana</Text>
-                            </View>
-                        )}
+                        <View style={[styles.scheduleItem, styles.scheduleItemRed]}>
+                            <Feather name="info" size={40} color="#FF669D" />
+                            <Text style={[styles.scheduleText, styles.scheduleTextRed]}>Não Atendemos fim de semana</Text>
+                        </View>
+                    )}
                 </View>
 
                 <RectButton style={styles.contactButtonWhatsApp} onPress={sendWhatsapp}>
