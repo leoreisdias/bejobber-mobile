@@ -7,7 +7,6 @@ import OnboardingRoutes from './onboarding.routes';
 
 export default function Routes() {
     const { isFirstVisit } = useContext(AccessContext)
-    console.log(isFirstVisit);
 
     return !isFirstVisit ? <AppRoutes /> : <OnboardingRoutes />
 }
