@@ -103,16 +103,20 @@ export default function BejobberData() {
         images.forEach((image, index) => {
             data.append('images', {
                 name: `image_${index}.${extImage[index]}`,
-                type: `image/${extImage[index]}`,
+                type: `image/jpeg`,
                 uri: image
             } as any)
         })
 
         try {
-            console.log(data);
-            await api.post('users', data)
-            setLoading(false);
+            const response = await api.post('https://bejobber-backend.herokuapp.com/users', data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            console.log(response);
 
+            setLoading(false);
             navigation.navigate('BejobberMap');
 
         } catch (error) {
@@ -122,7 +126,6 @@ export default function BejobberData() {
             setLoading(false);
             return;
         }
-
 
 
         navigation.navigate('BejobberMap');
