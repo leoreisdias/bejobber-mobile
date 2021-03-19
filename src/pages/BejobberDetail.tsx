@@ -49,9 +49,12 @@ export default function BejobberDetail() {
     const message = `Ola ${jobber?.name}, lhe encontrei no BeJobber e estou interesso por um de seus serviços.`
 
     useEffect(() => {
-        api.get(`users/${params.id}`).then(response => {
+        const loadUser = async () => {
+            const response = await api.get(`users/${params.id}`)
             setJobber(response.data.users);
-        })
+        }
+
+        loadUser();
     }, [params.id])
 
     function sendWhatsapp() {
