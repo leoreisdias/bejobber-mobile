@@ -9,7 +9,7 @@ import { useRoute } from '@react-navigation/native';
 import api from '../services/api';
 
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
-import { MailComposer } from 'expo';
+import * as MailComposer from 'expo-mail-composer'
 
 
 interface BejobberDetailRouteParams {
@@ -64,7 +64,7 @@ export default function BejobberDetail() {
     function sendMail() {
         MailComposer.composeAsync({
             subject: `[BEJOBBER] - Interesse por serviço`,
-            recipients: [jobber?.email],
+            recipients: [String(jobber?.email)],
             body: message,
         })
     }
