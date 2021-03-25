@@ -109,7 +109,7 @@ export default function BejobberData() {
         })
 
         try {
-            const response = await api.post('https://bejobber-backend.herokuapp.com/users', data, {
+            const response = await api.post(process.env.REACT_APP_API + '/users', data, {
                 headers: {
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
